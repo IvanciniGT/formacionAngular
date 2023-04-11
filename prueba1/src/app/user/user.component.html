@@ -1,12 +1,50 @@
 <div class="usuario">
   <div class="titulo">Usuario</div>
   <div class="foto">{{ this.user.foto }}</div>
-  <div class="datos">
+  <div class="datos-fijos">
     <div class="nombre">{{ this.user.nombre }}</div>
     <div class="apellidos">{{ this.user.apellidos }}</div>
     <div class="edad">{{ this.user.edad }}</div>
-    <div class="telefono">{{ this.user.telefono }}</div>
-    <div class="email">{{ this.user.email }}</div>
     <div class="id">{{ this.id }}</div>
   </div>
+
+
+  <div class="datos-contacto" *ngIf="! this.enEdicion; else formulario">
+    <div class="telefono">{{ this.user.telefono }}</div>
+    <div class="email">{{ this.user.email }}</div>
+  </div>
+
+  <ng-template #formulario>
+    
+    <div class="formulario-datos-contacto">
+      <input type="text" class="contacto" value={{this.user.telefono}} #nuevoTelefono >
+      <input type="text" class="contacto" value={{this.user.email}}    #nuevoEmail    >
+    </div>
+
+    <div class="botones" >
+      <button 
+        (click)="this.actualizarDatosContacto(nuevoTelefono.value, nuevoEmail.value)"
+      >Guardar</button>
+
+      <button 
+        (click)="this.detenerEdicion()"
+      >Cancelar</button>
+    </div>
+  </ng-template>
+
+  <!-- Alternativa... En esta caso incluso más cómoda
+  <div class="formulario-datos-contacto"  *ngIf="this.enEdicion">
+    <input type="text" class="contacto" value={{this.user.telefono}} >
+    <input type="text" class="contacto" value={{this.user.email}} >
+  </div>
+-->
+
+  <div class="botones" >
+    <button 
+      *ngIf="this.editable && ! this.enEdicion"
+      (click)="this.activarModoEdicion()"
+    >Modificar</button>
+  </div>
+  
+  <hr/>
 </div>

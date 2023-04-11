@@ -9,11 +9,16 @@ import { UserService } from './services/user.service';
 })
 
 export class UserComponent implements OnInit{
+[x: string]: any;
 
   user!: Usuario;
+  enEdicion: boolean = false;
 
   @Input()
-  id: number = 1;
+  id!: number;
+
+  @Input()
+  editable: boolean = false;
 
   constructor(private userService:UserService){ // Inyección de dependencias
   }
@@ -22,6 +27,24 @@ export class UserComponent implements OnInit{
   ngOnInit(): void {
     // Hacemos aquí la llamada al servicio de backend?
     this.user = this.userService.getUser(this.id);
+  }
+
+  activarModoEdicion(){
+    if(!this.editable){
+      throw new Error("El usuario no es editable");
+    }
+    this.enEdicion = true;
+  }
+
+  actualizarDatosContacto(nuevoTelefono:string, nuevoEmail:string){
+    // Actualizará los datos... ya veremos cómo
+    console.log("Nuevo Email", nuevoEmail)
+    console.log("Nuevo Telefono", nuevoTelefono)
+    this.detenerEdicion();
+  }
+
+  detenerEdicion(){
+    this.enEdicion = false;
   }
 
 }
