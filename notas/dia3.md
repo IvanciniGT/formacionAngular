@@ -37,4 +37,34 @@ TAREAS:
 4- Componente ListadoDeUsuarios
    Debe mostrar un conjunto de usuarios... controlando si son editables y / o borrables
    Si lo son, que solo se puede editar/borrar uno a la vez
-   
+
+Desde un ID de usuario, quiero los datos de un usuario, dentro de una APP concreta....
+Para mostrarlos con el UserComponent <usuario id="1212"/> en varios sitios diferentes de la app.
+
+Voy a atacar siempre al mismo ENDPOINT para sacar los datos?
+- Email
+- Telefono
+- Nombre
+- Apellidos
+- Edad
+> GET https://miapp.com/api/v1/users/{id}
+
+Si quiero un listado de usuarios... siempre tendré el mismo endPoint al que llamar?
+- Administración de usuarios
+    > GET https://miapp.com/api/v1/users
+- App de gestión de expedientes, solicitudes de vacaciones, solicitud de cursos. RESPONSABLES DE APROBACION
+    > GET https://miapp.com/api/v1/solicitudes/vacaciones/{id}/responsables
+    > GET https://miapp.com/api/v1/solicitudes/vacaciones/{id}
+- App de gestión de expedientes, solicitudes de vacaciones, solicitud de cursos. RESPONSABLES DE GESTION
+    > GET https://miapp.com/api/v1/solicitudes/vacaciones/{id}/gestores
+    > GET https://miapp.com/api/v1/solicitudes/vacaciones/{id}
+
+--------------
+                                    Editable?
+Ivan                                    x
+Felipe                                  x
+Menchu                                  x
+
+A nivel de listado:
+editable : true
+usuarioSeleccionado : None

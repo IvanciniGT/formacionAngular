@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Usuario } from './models/user.model';
-import { UserService } from './services/user.service';
+import { Usuario } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
 import { OnEditUserEvent } from './events/onedit.user.event';
 import { BaseEvent } from './events/base.event';
 import { OnEditCancelUserEvent } from './events/oneditcancel.user.event';
-import { DatosModificablesUsuario } from './models/user.updatable.model';
+import { DatosModificablesUsuario } from '../../models/user.updatable.model';
 import { OnUpdatedUserEvent } from './events/onupdated.user.event';
 import { OnDeletionUserEvent } from './events/ondeletion.user.event';
 import { OnDeletionCancelUserEvent } from './events/ondeletioncancel.user.event';
@@ -23,7 +23,10 @@ export class UserComponent implements OnInit{
   enBorrado: boolean = false;
 
   @Input()
-  id!: number;
+  id?: number;
+
+  @Input()
+  data?: Usuario;
 
   @Input()
   editable: boolean = false;
@@ -67,7 +70,13 @@ export class UserComponent implements OnInit{
   // Esta función será llamada después del constructor, cuando nuestro componente se añada al DOM
   ngOnInit(): void {
     // Hacemos aquí la llamada al servicio de backend?
-    this.user = this.userService.getUser(this.id);
+    if(this.id && ! this.data){
+      this.user = this.userService.getUser(this.id);
+    }else  if(this.data){
+      this.user = this.data;
+    }else{
+      throw new Error("Necesito un id o un data !!!!!")
+    }
   }
 
   procesarEvento(evento:BaseEvent){
@@ -92,7 +101,7 @@ export class UserComponent implements OnInit{
       this.#detenerBorrado();
       this.onDeletionCancel.emit(evento)    // Comunicación hacia otros componentes
     }else if(evento instanceof OnDeleteUserEvent){
-      this.#borrarUsuario(evento);
+      this.#borrarUsuario(evento);  // Va a ser asíncrona???
       this.onDelete.emit(evento)    // Comunicación hacia otros componentes
     }
   }
@@ -108,6 +117,11 @@ export class UserComponent implements OnInit{
     // Actualizará los datos... ya veremos cómo
     console.log("Nuevo Email", evento.newInfo.email)
     console.log("Nuevo Telefono", evento.newInfo.telefono)
+    this.userService.updateUser(evento.user, evento.newInfo)
+    //.when(nuevoUsuario => this.user)
+    this.user.setEmail(evento.newInfo.email)
+    this.user.setTelefono(evento.newInfo.telefono)
+    // Esto o pedir de nuevo al servidor
     this.#detenerEdicion();
   }
 
@@ -125,6 +139,7 @@ export class UserComponent implements OnInit{
   #borrarUsuario(evento:OnDeleteUserEvent ){
     // Actualizará los datos... ya veremos cómo
     console.log("Borramos el usuario", evento.user.nombre)
+    this.userService.deleteUser(evento.user);
     this.#detenerBorrado();
   }
 

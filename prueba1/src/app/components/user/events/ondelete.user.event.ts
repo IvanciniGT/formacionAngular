@@ -1,5 +1,5 @@
-import { Usuario } from "../models/user.model";
-import { DatosModificablesUsuario } from "../models/user.updatable.model";
+import { Usuario } from "../../../models/user.model";
+import { DatosModificablesUsuario } from "../../../models/user.updatable.model";
 import { BaseEvent } from "./base.event";
 
 export class OnDeleteUserEvent extends BaseEvent{

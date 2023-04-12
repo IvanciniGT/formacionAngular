@@ -1,0 +1,28 @@
+<div *ngIf="this.usuarios; else esperando">
+    <ol>
+        <li *ngFor="let usuario of this.usuarios">
+            <usuario
+                [data]="usuario"
+                [editable]="this.editables && ( ! this.usuarioSeleccionado || this.usuarioSeleccionado == usuario )"
+                [borrable]="this.borrables && ( ! this.usuarioSeleccionado || this.usuarioSeleccionado == usuario )"
+
+                (onEdit)            = "this.setUsuarioSeleccionado($event.user)"
+                (onEditCancel)      = "this.resetearUsuarioSeleccionado()"
+                (onUpdated)         = "this.resetearUsuarioSeleccionado()"
+                (onDeletion)        = "this.setUsuarioSeleccionado($event.user)"
+                (onDeletionCancel)  = "this.resetearUsuarioSeleccionado()"
+                (onDelete)          = "this.usuarioBorrado($event.user)" 
+            >
+            </usuario>
+        </li>
+    </ol>
+</div>
+
+
+
+
+
+
+<ng-template #esperando>
+    <div>Esperando usuarios....</div>
+</ng-template>

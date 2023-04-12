@@ -1,4 +1,4 @@
-<div class="usuario">
+<div class="usuario"  *ngIf="this.user; else esperando">
   <div class="titulo">Usuario</div>
   <div class="foto">{{ this.user.foto }}</div>
   <div class="datos-fijos">
@@ -66,3 +66,10 @@
 
 <hr/>
 </div>
+
+
+
+
+<ng-template #esperando>
+  <div>Esperando datos del usuario....</div>
+</ng-template>

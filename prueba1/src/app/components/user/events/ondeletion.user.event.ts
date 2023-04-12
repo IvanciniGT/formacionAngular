@@ -1,4 +1,4 @@
-import { Usuario } from "../models/user.model";
+import { Usuario } from "../../../models/user.model";
 import { BaseEvent } from "./base.event";
 
 export class OnDeletionUserEvent extends BaseEvent {
