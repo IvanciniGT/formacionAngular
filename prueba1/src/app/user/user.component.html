@@ -15,7 +15,7 @@
   </div>
 
   <ng-template #formulario>
-    
+
     <div class="formulario-datos-contacto">
       <input type="text" class="contacto" value={{this.user.telefono}} #nuevoTelefono >
       <input type="text" class="contacto" value={{this.user.email}}    #nuevoEmail    >
@@ -23,11 +23,14 @@
 
     <div class="botones" >
       <button 
-        (click)="this.actualizarDatosContacto(nuevoTelefono.value, nuevoEmail.value)"
+        (click)="this.procesarEvento(OnUpdatedUserEvent.new(this.user, 
+                  DatosModificablesUsuario.new()
+                  .setTelefono(nuevoTelefono.value)
+                  .setEmail(nuevoEmail.value)))"
       >Guardar</button>
 
       <button 
-        (click)="this.detenerEdicion()"
+        (click)="this.procesarEvento(OnEditCancelUserEvent.new(this.user))"
       >Cancelar</button>
     </div>
   </ng-template>
@@ -42,7 +45,7 @@
   <div class="botones" >
     <button 
       *ngIf="this.editable && ! this.enEdicion"
-      (click)="this.activarModoEdicion()"
+      (click)="this.procesarEvento(OnEditUserEvent.new(this.user))"
     >Modificar</button>
   </div>
   

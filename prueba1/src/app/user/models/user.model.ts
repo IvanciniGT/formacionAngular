@@ -1,8 +1,8 @@
-export class Usuario {
+import { DatosModificablesUsuario } from "./user.updatable.model";
+
+export class Usuario extends DatosModificablesUsuario{
     nombre!: string;
     apellidos!: string;
-    telefono!: string;
-    email!: string;
     id!: number;
     foto!: string;
     edad!: number;
