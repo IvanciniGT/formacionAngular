@@ -6,6 +6,9 @@ import { BaseEvent } from './events/base.event';
 import { OnEditCancelUserEvent } from './events/oneditcancel.user.event';
 import { DatosModificablesUsuario } from './models/user.updatable.model';
 import { OnUpdatedUserEvent } from './events/onupdated.user.event';
+import { OnDeletionUserEvent } from './events/ondeletion.user.event';
+import { OnDeletionCancelUserEvent } from './events/ondeletioncancel.user.event';
+import { OnDeleteUserEvent } from './events/ondelete.user.event';
 
 @Component({
   selector: 'usuario',
@@ -17,6 +20,7 @@ export class UserComponent implements OnInit{
 
   user!: Usuario;
   enEdicion: boolean = false;
+  enBorrado: boolean = false;
 
   @Input()
   id!: number;
@@ -24,9 +28,17 @@ export class UserComponent implements OnInit{
   @Input()
   editable: boolean = false;
 
+  @Input()
+  borrable: boolean = false;
+
   readonly OnEditUserEvent = OnEditUserEvent;   // Simplemente para poder referirme a la clase OnEditUserEvent desde la plantilla
   readonly OnEditCancelUserEvent = OnEditCancelUserEvent;   // Simplemente para poder referirme a la clase OnEditUserEvent desde la plantilla
   readonly OnUpdatedUserEvent = OnUpdatedUserEvent;   // Simplemente para poder referirme a la clase OnEditUserEvent desde la plantilla
+
+  readonly OnDeletionUserEvent = OnDeletionUserEvent; 
+  readonly OnDeletionCancelUserEvent = OnDeletionCancelUserEvent;
+  readonly OnDeleteUserEvent = OnDeleteUserEvent;  
+
   readonly DatosModificablesUsuario = DatosModificablesUsuario;   // Simplemente para poder referirme a la clase OnEditUserEvent desde la plantilla
 
   @Output()
@@ -37,6 +49,16 @@ export class UserComponent implements OnInit{
 
   @Output()
   onUpdated = new EventEmitter<OnUpdatedUserEvent>(); // Informamos que este componente puede lanzar eventos de tipo "onEdit"
+
+
+  @Output()
+  onDeletion = new EventEmitter<OnDeletionUserEvent>(); // Informamos que este componente puede lanzar eventos de tipo "onEdit"
+
+  @Output()
+  onDeletionCancel = new EventEmitter<OnDeletionCancelUserEvent>(); // Informamos que este componente puede lanzar eventos de tipo "onEdit"
+
+  @Output()
+  onDelete = new EventEmitter<OnDeleteUserEvent>(); // Informamos que este componente puede lanzar eventos de tipo "onEdit"
 
 
   constructor(private userService:UserService){ // Inyección de dependencias
@@ -52,6 +74,8 @@ export class UserComponent implements OnInit{
     // Un punto de control para todos los eventos de mi componente
     // Logging
     // Control de autorizaciones
+    //switch(evento.constructor.name)
+
     if(evento instanceof OnEditUserEvent){
       this.#activarModoEdicion();
       this.onEdit.emit(evento)    // Comunicación hacia otros componentes
@@ -61,6 +85,15 @@ export class UserComponent implements OnInit{
     }else if(evento instanceof OnUpdatedUserEvent){
       this.#actualizarDatosContacto(evento);
       this.onUpdated.emit(evento)    // Comunicación hacia otros componentes
+    }else if(evento instanceof OnDeletionUserEvent){
+      this.#activarModoBorrado();
+      this.onDeletion.emit(evento)    // Comunicación hacia otros componentes
+    }else if(evento instanceof OnDeletionCancelUserEvent){
+      this.#detenerBorrado();
+      this.onDeletionCancel.emit(evento)    // Comunicación hacia otros componentes
+    }else if(evento instanceof OnDeleteUserEvent){
+      this.#borrarUsuario(evento);
+      this.onDelete.emit(evento)    // Comunicación hacia otros componentes
     }
   }
 
@@ -80,6 +113,23 @@ export class UserComponent implements OnInit{
 
   #detenerEdicion(){
     this.enEdicion = false;
+  }
+
+  #activarModoBorrado(){ // Es una función privada del componente
+    if(!this.borrable){
+      throw new Error("El usuario no es borrable");
+    }
+    this.enBorrado = true;
+  }
+
+  #borrarUsuario(evento:OnDeleteUserEvent ){
+    // Actualizará los datos... ya veremos cómo
+    console.log("Borramos el usuario", evento.user.nombre)
+    this.#detenerBorrado();
+  }
+
+  #detenerBorrado(){
+    this.enBorrado = false;
   }
 
 }

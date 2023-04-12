@@ -42,12 +42,27 @@
   </div>
 -->
 
-  <div class="botones" >
-    <button 
-      *ngIf="this.editable && ! this.enEdicion"
-      (click)="this.procesarEvento(OnEditUserEvent.new(this.user))"
-    >Modificar</button>
-  </div>
+<div class="botones" >
+  <button 
+    *ngIf="this.editable && ! this.enEdicion && ! this.enBorrado"
+    (click)="this.procesarEvento(OnEditUserEvent.new(this.user))"
+  >Modificar</button>
+
+  <button 
+    *ngIf="this.borrable && ! this.enEdicion && ! this.enBorrado"
+    (click)="this.procesarEvento(OnDeletionUserEvent.new(this.user))"
+  >Borrar</button>
   
-  <hr/>
+  <button 
+  *ngIf="this.enBorrado"
+  (click)="this.procesarEvento(OnDeleteUserEvent.new(this.user))"
+  >Confirmar</button>
+  
+  <button 
+  *ngIf="this.enBorrado"
+  (click)="this.procesarEvento(OnDeletionCancelUserEvent.new(this.user))"
+  >Cancelar</button>
+</div>
+
+<hr/>
 </div>
