@@ -9,6 +9,7 @@ import { OnUpdatedUserEvent } from './events/onupdated.user.event';
 import { OnDeletionUserEvent } from './events/ondeletion.user.event';
 import { OnDeletionCancelUserEvent } from './events/ondeletioncancel.user.event';
 import { OnDeleteUserEvent } from './events/ondelete.user.event';
+import { toUsuario } from 'src/app/mappers/UsuarioMapper';
 
 @Component({
   selector: 'usuario',
@@ -71,7 +72,13 @@ export class UserComponent implements OnInit{
   ngOnInit(): void {
     // Hacemos aquí la llamada al servicio de backend?
     if(this.id && ! this.data){                     /* Funcion de callback */ 
-    this.userService.getUser(this.id).subscribe( (datos) => this.usuarioRecibido(datos) );
+    try{
+      this.userService.getUser(this.id ).subscribe( 
+        (datos) => this.usuarioRecibido(datos) 
+      );
+    }catch (error){
+        alert(error)
+    }
     //this.userService.getUser(this.id).subscribe( this.usuarioRecibido.bind(this) );
   }else  if(this.data){
       this.user = this.data;
@@ -80,7 +87,11 @@ export class UserComponent implements OnInit{
     }
   }
 
-  usuarioRecibido(usuario:any){
+  enCasoDeErrorAlRecuperarDatos(mensaje:string){
+    //alert(mensaje)
+  }
+
+  usuarioRecibido(usuario:Usuario){
       console.log(usuario)
       this.user = usuario
   }
