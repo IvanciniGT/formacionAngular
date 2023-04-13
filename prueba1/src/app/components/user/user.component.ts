@@ -70,13 +70,19 @@ export class UserComponent implements OnInit{
   // Esta función será llamada después del constructor, cuando nuestro componente se añada al DOM
   ngOnInit(): void {
     // Hacemos aquí la llamada al servicio de backend?
-    if(this.id && ! this.data){
-      this.user = this.userService.getUser(this.id);
-    }else  if(this.data){
+    if(this.id && ! this.data){                     /* Funcion de callback */ 
+    this.userService.getUser(this.id).subscribe( (datos) => this.usuarioRecibido(datos) );
+    //this.userService.getUser(this.id).subscribe( this.usuarioRecibido.bind(this) );
+  }else  if(this.data){
       this.user = this.data;
     }else{
       throw new Error("Necesito un id o un data !!!!!")
     }
+  }
+
+  usuarioRecibido(usuario:any){
+      console.log(usuario)
+      this.user = usuario
   }
 
   procesarEvento(evento:BaseEvent){

@@ -25,7 +25,7 @@ export class UserListComponent implements OnInit{
   // Esta función será llamada después del constructor, cuando nuestro componente se añada al DOM
   ngOnInit(): void {
     // Hacemos aquí la llamada al servicio de backend?
-    this.usuarios = this.userService.getUsers();
+    //this.usuarios = this.userService.getUsers();
   }
 
   setUsuarioSeleccionado(usuario?:Usuario){
