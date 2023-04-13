@@ -22,6 +22,7 @@ export class UserComponent implements OnInit{
   user!: Usuario;
   enEdicion: boolean = false;
   enBorrado: boolean = false;
+  enError: boolean = false;
 
   @Input()
   id?: number;
@@ -72,17 +73,45 @@ export class UserComponent implements OnInit{
   ngOnInit(): void {
     // Hacemos aquí la llamada al servicio de backend?
     if(this.id && ! this.data){                     /* Funcion de callback */ 
-      this.userService.getUser(this.id ).subscribe( 
-        (datos) => { 
-            try{
+      this.userService.getUser(this.id ,  this.enCasoDeErrorAlRecuperarDatos.bind(this)    )
+                                          // En este tipo de llamadas, se pierde la referencia al this = PUTADA !!!! = A GUARREAR PARA RESOLVERLO !!!!!
+                                          //this.enCasoDeErrorAlRecuperarDatos.bind(this)
+                                          //() => this.enCasoDeErrorAlRecuperarDatos()
+                                          // Definir abajo la función como una lmabda (flecha)
+
+
+/**                     ESTO ESTA DEPRECATED
+      .subscribe( 
+          (datos) => {                                                FUNCION SI VA BIEN
               this.usuarioRecibido(datos) 
-            }catch (error){
-                  alert(error)
-            }
-          }
-      );
-    //this.userService.getUser(this.id).subscribe( this.usuarioRecibido.bind(this) );
-  }else  if(this.data){
+          },
+          ()=> {}                                                     FUNCION SI VA MAL
+        );
+        */
+
+        /*
+          ESTA LA TENEMOS DISPONIBLE  .... Y FUNCIONA GUAY !!!!!!!!
+          Si bien... esta algo limitada... o es incomoda... si 
+          siempre que se produzca el error quieres darle el mismo trámite... 
+          o al menos una parte del tramite quieres que sea genérica
+        */
+       /*
+       .subscribe( {
+                      next: (datos) => {                                               // FUNCION SI VA BIEN
+                          this.usuarioRecibido(datos) 
+                      },
+                      error: ()=> {
+                        console.log("Error al recuperar el usuario. DESDE SUBSCRIBE.")                //  FUNCION SI VA MAL
+                        // Aqui desactivar la barra de progreso... Pues si que tengo sitios desde donde llamo al desactivar...
+                        // Que no hay que hacer mucho manto al componente !!!!
+                      }
+
+                    }
+        );
+        */
+        .subscribe((usuario) => this.usuarioRecibido(usuario) )
+
+    }else if(this.data){
       this.user = this.data;
     }else{
       throw new Error("Necesito un id o un data !!!!!")
@@ -90,12 +119,19 @@ export class UserComponent implements OnInit{
   }
 
   enCasoDeErrorAlRecuperarDatos(mensaje:string){
-    //alert(mensaje)
+    console.log("Error al recuperar el usuario "+mensaje)        // Que tipo de código iría aquí? Relacionado con el componente USUARIO
+    // Ojo, que cuando se llama a esta función, quien la llama, que no es esta clase...
+    // no sabe quien es el this... El this de hecho es otro
+    console.log(this)
+    this.enError=true
   }
 
-  usuarioRecibido(usuario:Usuario){
-      console.log(usuario)
+  usuarioRecibido(usuario:Usuario | null){
+    if(usuario){
+      console.log("Usuario recibido "+ usuario.id) // Esto es una gilipollez, pero aquí puede ser que necesitase hacer más cosas
       this.user = usuario
+    }
+    // Parar una barra de progreso que he montado
   }
 
   procesarEvento(evento:BaseEvent){

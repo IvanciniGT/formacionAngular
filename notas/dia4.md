@@ -98,3 +98,26 @@ PASOS Para poner en marcha el Backend:
 4: Entrais en la carpeta app
 5: mvn spring-boot:run
 
+
+
+----
+
+El componente usuario hace una llamada para sacar info de un usuario
+Y no puede obtenerla.
+
+Quiero un mensaje GRANDE !!!! MUY GRANDE !!!! en la pantalla.... donde se informe de que no hay ahora conexion con internet y que lo intente más tarde
+
+    Código de respuesta HTTP: 0
+
+Pregunta... eso lo debería hacer cuando el componente usuario llame al servicio de usuario y pida un usuario
+Sería responsabilidad del componente usuario gestionar ese tipo de mensaje/error/notificacion?
+    Me temo que no.
+
+Pregunta.... el componente usuario es el único que va a llamar al servicio para obtener datos de un usuario?
+    Puede que no.
+
+Ese componente posiblemente quiera hacer algo con el error... enterarse de que hay un error... y dar cierto trámite al error: No se puede cargar en este momento los datos del usuario. ALGO !
+
+Pero además, posiblemente me interesa un trámite a nivel del SERVICIO !
+
+

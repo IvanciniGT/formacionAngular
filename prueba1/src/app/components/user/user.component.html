@@ -71,5 +71,6 @@
 
 
 <ng-template #esperando>
-  <div>Esperando datos del usuario....</div>
+  <div *ngIf="!this.enError">Esperando datos del usuario....</div>
+  <div *ngIf="this.enError">Error mortal de la muerte !</div>
 </ng-template>
