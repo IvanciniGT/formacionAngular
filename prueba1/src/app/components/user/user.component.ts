@@ -72,13 +72,15 @@ export class UserComponent implements OnInit{
   ngOnInit(): void {
     // Hacemos aquí la llamada al servicio de backend?
     if(this.id && ! this.data){                     /* Funcion de callback */ 
-    try{
       this.userService.getUser(this.id ).subscribe( 
-        (datos) => this.usuarioRecibido(datos) 
+        (datos) => { 
+            try{
+              this.usuarioRecibido(datos) 
+            }catch (error){
+                  alert(error)
+            }
+          }
       );
-    }catch (error){
-        alert(error)
-    }
     //this.userService.getUser(this.id).subscribe( this.usuarioRecibido.bind(this) );
   }else  if(this.data){
       this.user = this.data;
