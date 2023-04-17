@@ -1,1 +1,15 @@
-<p>task works!</p>
+<div *ngIf="! this.enEdicion; else formulario" (click)="this.comenzarEdicion()">
+    <div>Nombre: {{ this.data?.name }}</div>
+    <div>Descripcion: {{ this.data?.description }}</div>
+    <div>Horas: {{ this.data?.hours }}</div>
+</div>
+
+<ng-template #formulario>
+    <div>
+        <div>Nombre: <input type="text" [(ngModel)]="this.datos.name"></div>
+        <div>Descripcion: <input type="text" [(ngModel)]="this.datos.description"></div>
+        <div>Horas: <input type="text" [(ngModel)]="this.datos.hours" ></div>
+
+        <button (click)="this.guardarFormulario()">Guardar</button>
+    </div>
+</ng-template>

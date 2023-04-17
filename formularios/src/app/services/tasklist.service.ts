@@ -8,12 +8,30 @@ import { UpdatableTask } from "../models/task.updatable.model";
 @Injectable()
 export class TaskListService {
 
+    taskLists:Array<TaskList>=[
+        {
+            "id":0, 
+            "name": "Lista1", 
+            "tasks": [
+                {
+                    "id":1, 
+                    "name": "Tarea1", 
+                    "description": "", 
+                    "hours": 0
+                }
+            ]
+        }
+    ]
+
     getTaskListList(): Observable<Array<TaskList>> {
         return of([]);
     }
 
     getTaskList(id:number): Observable<TaskList> {
-        return of();
+        var miTaskList:TaskList = this.taskLists[id]
+        var resultado = of(miTaskList)
+        console.log("DESDE EL SERVICIO", resultado)
+        return resultado;
     }
 
     getTask(taskListId:number, id:number): Observable<Task> {

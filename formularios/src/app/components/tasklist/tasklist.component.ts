@@ -1,17 +1,32 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Task } from 'src/app/models/task.model';
 import { TaskList } from 'src/app/models/tasklist.model';
+import { TaskListService } from 'src/app/services/tasklist.service';
 
 @Component({
   selector: 'tasklist',
   templateUrl: './tasklist.component.html',
   styleUrls: ['./tasklist.component.css']
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnInit{
+  
   @Input()
-  id?:number
+  id:number = -1
   @Input()
   data?:TaskList
   
-  tasks?:Array<Task>
+  constructor(private taskListService:TaskListService ){}
+
+  ngOnInit(): void {
+    console.log(this.id)
+    if(this.id != -1) {
+      this.taskListService.getTaskList(this.id).subscribe( 
+        data => {
+          console.log(data)
+          this.data=data 
+        }
+      )
+    }
+  }
+
 }
