@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { TestUserService } from 'src/app/services/user.service.test';
 
 @Component({
   selector: 'listado-usuarios',
@@ -19,7 +20,7 @@ export class UserListComponent implements OnInit{
 
   usuarioSeleccionado?: Usuario
 
-  constructor(private userService:UserService){ // Inyección de dependencias
+  constructor(private userService:TestUserService){ // Inyección de dependencias
   }
   
   // Esta función será llamada después del constructor, cuando nuestro componente se añada al DOM

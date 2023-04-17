@@ -6,6 +6,7 @@ import { UserComponent } from './components/user/user.component';
 import { AppComponent } from './components/app/app.component';
 import { UserListComponent } from './components/userlist/userlist.component';
 import { UserService } from './services/user.service';
+import { TestUserService } from './services/user.service.test';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { UserService } from './services/user.service';
     BrowserModule,
     HttpClientModule
   ],
-  providers: [UserService],
+  providers: [TestUserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -10,6 +10,7 @@ import { OnDeletionUserEvent } from './events/ondeletion.user.event';
 import { OnDeletionCancelUserEvent } from './events/ondeletioncancel.user.event';
 import { OnDeleteUserEvent } from './events/ondelete.user.event';
 import { toUsuario } from 'src/app/mappers/UsuarioMapper';
+import { TestUserService } from 'src/app/services/user.service.test';
 
 @Component({
   selector: 'usuario',
@@ -66,7 +67,7 @@ export class UserComponent implements OnInit{
   onDelete = new EventEmitter<OnDeleteUserEvent>(); // Informamos que este componente puede lanzar eventos de tipo "onEdit"
 
 
-  constructor(private userService:UserService){ // Inyección de dependencias
+  constructor(private userService:TestUserService){ // Inyección de dependencias
   }
   
   // Esta función será llamada después del constructor, cuando nuestro componente se añada al DOM

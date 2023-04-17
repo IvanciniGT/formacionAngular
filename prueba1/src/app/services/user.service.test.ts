@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Usuario } from "../models/user.model";
 import { DatosModificablesUsuario } from "../models/user.updatable.model";
+import { UserService } from "./user.service";
+import { Observable, of } from "rxjs";
 
 @Injectable()
-export class UserService {
+export class TestUserService{
 
   listado: Array<Usuario> = []
 
@@ -15,13 +17,13 @@ export class UserService {
     this.listado.push(crearUsuario(5,"Trini", "Osuna", 44, "ivan@osuna.com", "123456789", "https://i.ytimg.com/vi/w8LKAJBB8-s/mqdefault.jpg"))
   }
 
-    getUsers(): Usuario[] {
-      return this.listado
+    getUsers(): Observable<Array<Usuario>> {
+      return of(this.listado)
     }
 
-    getUser(id:number): Usuario{
-        // TODO: Pondré la llamada al servicio web (que correrá en el backend)
-        return this.listado[id]
+    getUser(id:number, callback:Function = (mensaje:string) => {} ):Observable<Usuario | null>{     
+      // TODO: Pondré la llamada al servicio web (que correrá en el backend)
+        return of(this.listado[id])
     }
 
     deleteUser(user: Usuario) {

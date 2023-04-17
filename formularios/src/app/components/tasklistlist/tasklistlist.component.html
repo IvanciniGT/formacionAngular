@@ -1,1 +1,14 @@
-Listado de listas de tareas
+<div>
+    <h2>Listado de listas de tareas</h2>
+    <ol>
+        <li *ngFor="let titulo of this.titulosListas">
+            <div>{{titulo}}</div>
+        </li>
+    </ol>
+    <div>
+        <h3>Tarea: </h3>
+        <input type="text" [formControl]="titulo">
+        <button (click)="this.nuevaTarea()">Nueva</button>
+    </div>
+    
+</div>
