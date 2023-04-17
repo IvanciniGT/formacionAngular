@@ -1,0 +1,48 @@
+<div>
+    <h2>Nuevo usuario:</h2>
+    <form [formGroup]="formulario" (ngSubmit)="nuevoUsuario()">
+        <div>
+            <label>Nombre:</label>
+            <input type="text" formControlName="nombre" >
+            <div *ngIf="this.formulario.get('nombre')?.errors?.['required']">
+                Debe suministrar un nombre obligatoriamente
+            </div>
+        </div>
+
+        <div>
+            <label>Apellidos:</label>
+            <input type="text" formControlName="apellidos" >
+        </div>
+
+        <div>
+            <label>Email:</label>
+            <input type="text" formControlName="email" >
+            <div *ngIf="this.formulario.get('email')?.errors?.['email']">
+                El email debe ser válido
+            </div>
+        </div>
+
+        <div>
+            <label>Teléfono:</label>
+            <input type="text" formControlName="telefono" >
+        </div>
+
+        <div>
+            <label>Foto:</label>
+            <input type="text" formControlName="foto" >
+        </div>
+
+        <div>
+            <label>Edad:</label>
+            <input type="text" formControlName="edad" >
+            <div *ngIf="this.formulario.get('edad')?.errors?.['min']">
+                La edad debe ser mayor que Cero
+            </div>
+            <div *ngIf="this.formulario.get('edad')?.errors?.['max']">
+                La edad no puede ser mayor que 150
+            </div>
+        </div>
+
+        <button type="submit" [disabled]="!this.formulario.valid">Aceptar</button>
+    </form>
+</div>

@@ -7,16 +7,20 @@ import { AppComponent } from './components/app/app.component';
 import { UserListComponent } from './components/userlist/userlist.component';
 import { UserService } from './services/user.service';
 import { TestUserService } from './services/user.service.test';
+import { NewUserFormComponent } from './components/newuserform/newuserform.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     UserComponent,
     UserListComponent,
-    AppComponent
+    AppComponent,
+    NewUserFormComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [TestUserService],
   bootstrap: [AppComponent]

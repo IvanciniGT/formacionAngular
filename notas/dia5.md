@@ -129,3 +129,36 @@ Si el task se marca como acabado, quizas el padre lo saca al final de la lista..
                                     Task invoca la función
 
                 La opción con el OUTPUT es más limpia!
+
+---
+
+# Autenticación y Autorización
+
+Si mi app web para una operación necesita autenticar al usuario / autorizar
+Delega esa responsabilidad a un Proveedor de Autenticación.
+Que mi app, lanza un http 300 a la URL del proveedor de Autenticación
+Y el navegador descarga(para, destruye) mi app... y carga en la pestaña la URL del proveedor
+Donde se mostrará un formulario de login
+El usuario rellena ese formulario (contraseña) y la manda al proveedor de Autenticación
+Es proveedor después de haber validado las credenciales emite un TOKEN de acceso: JWT
+El proveedor envía otro http 300 a nuestra app.
+Nuestro JS recibe el JWT... y lo medio valida! = CHAPUZA QUE HACEMOS EN EL FRONT (aceptada)
+Miramos los datos y la firma.... para asegurarnos que la información ha sido 
+realmente generada por el proveedor de identidad
+Una vez hecho eso, miramos en el JSON los roles del usuario para autorizarle o no!
+- Si le autorizamos, en un momento dado, llamaremos al BACKEND y le suministraremos el JWT
+
+En el backend, se lo toman más en serio!!!!!
+Adicionalmente, a esas validaciones sobre el JWT, el backend va a preguntar al Proveedor de identidad: OYE!!! el jwt sigue siendo válido? Y el Servidor de autenticación contestará
+- SI 
+- NO... ese usuario ya hizo logout... no se de donde leches has sacado eso!!!
+- Y el backend lo rechazará
+
+## Autenticar
+
+Asegurar su identidad
+
+## Autorizar
+
+Sabiendo quien eres, saber si tienes suficientes permisos para hacer una operación
+
