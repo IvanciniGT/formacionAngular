@@ -66,14 +66,51 @@ Ese JSON tendrá datos asociados a es acción concreta.
 
 ARQUITECTURA DE  COMPONENTES:
 
-                    app 
-        componente-a    componente-b
-            |               ^
- ACCION(establecerNombre)   |
-            |               |
-            V               |
-            ---------------------
-                   REDUCER
-            ---------------------
-                   nombre
-                ESTADO GLOBAL
+                                    app 
+                        componente-a    componente-b
+                         [store]          [store]
+                            |               ^       
+                 ACCION(establecerNombre)   |       
+                            |               |       
+                            V               |       
+            ----------------------------------------------------------------
+                                REDUCER
+            ----------------------------------------------------------------
+                                nombre
+                              ESTADO GLOBAL
+            Store = [reducers]
+
+
+LA CLAVE DE USAR REDUX es que me permite comunicar componentes TOTALMENTE DESACOPLADOS ENTRE SI
+Dicho de otra forma:
+- En el componente A no va a existir NI UNA SOLA REFERENCIA AL COMPONENTE B
+- En el componente B no va a existir NI UNA SOLA REFERENCIA AL COMPONENTE A
+
+
+En REDUX, el estado GLOBAL de mi aplicación lo define el STORE, cuando montamos el store,
+configurándole los reducers.
+En nuestro caso, al configurar el store, hemos puesto:
+>    StoreModule.forRoot({ app: appReducer, })
+                         <------------------> De ahí se saca la estructura que tendrá el ESTADO GLOBAL
+
+Hasta ahora, lo que hemos definido no ha sido el ESTADO GLOBAL.
+Sino la parte del estado global que nos gestiona CADA REDUCER
+Muestro reducer, genera un estado con la estructura:
+>   export const appReducer = createReducer(initialState, ... funciones de reduccion)   
+                                            <----------> Que está aquí definida
+En nuestro caso, nuestro reducer, genera un estado del tipo: 
+    {
+        user : UserState,
+        error: ErrorState,
+        nombre: NombreState
+    }
+Pero el store, está preparado para trabajar con MULTIPLES REDUCERS... y juntará los estado de cada uno de ellos
+para dar lugar al estado global, que en nuestro caso será de la forma:
+{
+    app: {
+        user : UserState,
+        error: ErrorState,
+        nombre: NombreState
+    }
+    ,...
+}
