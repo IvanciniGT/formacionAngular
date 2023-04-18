@@ -1,0 +1,8 @@
+<div>
+    <div>{{ this.data?.name}}</div>
+    <ol>
+        <li *ngFor="let tarea of this.data?.tasks">
+            <task [data]="tarea"></task>
+        </li>
+    </ol>
+</div>

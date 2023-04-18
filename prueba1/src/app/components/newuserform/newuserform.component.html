@@ -25,6 +25,12 @@
         <div>
             <label>Teléfono:</label>
             <input type="text" formControlName="telefono" >
+            <div *ngIf="this.formulario.get('telefono')?.errors?.['telefono2']">
+                Ese número es mu' largo !!!!
+            </div>
+            <div *ngIf="this.formulario.get('telefono')?.errors?.['pattern']">
+                Ese número tiene caracteres chungos !!!!
+            </div>
         </div>
 
         <div>
@@ -41,6 +47,46 @@
             <div *ngIf="this.formulario.get('edad')?.errors?.['max']">
                 La edad no puede ser mayor que 150
             </div>
+        </div>
+
+        <div>
+                <!-- Radio -->
+            <label>Permiso de conducción</label>
+            <input type="radio" value="no"     formControlName="permiso"> No tengo
+            <input type="radio" value="coche"  formControlName="permiso"> Coche
+            <input type="radio" value="moto"   formControlName="permiso"> Moto
+            <input type="radio" value="ambos"  formControlName="permiso"> Ambos
+        </div>
+
+        <div>
+                <!-- checkbox -->
+            <input type="checkbox" formControlName="coche">
+            <label>Tienes coche</label>
+        </div>
+
+        <div>
+                <!-- select -->
+            <label>Género</label>
+            <select formControlName="genero">
+                <option></option>
+                <option>Hombre</option>
+                <option>Mujer</option>
+                <option>No binario</option>
+                <option>Otros</option>
+            </select>
+        </div>
+
+        <div formArrayName="direcciones">
+            <h3>Direcciones:</h3>
+            <div *ngFor="let direccion of this.direcciones.controls; let posicion=index" [formGroupName]="posicion" >
+                <label>Vía</label>
+                <input type="text" formControlName="via" >
+                <label>Número</label>
+                <input type="text" formControlName="numero" >
+                <label>Población</label>
+                <input type="text" formControlName="poblacion" >
+            </div>
+            <button (click)="this.nuevaDireccion()">Nueva dirección</button>
         </div>
 
         <button type="submit" [disabled]="!this.formulario.valid">Aceptar</button>
